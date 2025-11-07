@@ -1,20 +1,19 @@
 package com.devsenior.jmorera.gestioncursos.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.devsenior.jmorera.gestioncursos.model.Course;
-import com.devsenior.jmorera.gestioncursos.service.CourseService;
-
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.devsenior.jmorera.gestioncursos.model.Course;
+import com.devsenior.jmorera.gestioncursos.service.CourseService;
 
 
 
@@ -26,14 +25,12 @@ public class CourseController {
 
     private CourseService courseService;
 
-    
-    
 
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }
 
-    @GetMapping("/api/cursos")
+    @GetMapping()
     public List<Course> getAllCourses() {
         return courseService.getAll();
     }
@@ -44,22 +41,22 @@ public class CourseController {
     }
 
     @GetMapping("/buscar")
-    public List <Course> getCourseContainsName(@RequestParam ("nombre")String nameString) {
-        return courseService.getAllThatContainName(nameString);
+    public List <Course> getCourseContainsText(@RequestParam ("nombre")String name) {
+        return courseService.getAllThatContainName(name);
     }
-    @PostMapping("path")
+    @PostMapping()
     public Course  CreateCourse(@RequestBody Course course) {
-        //TODO: process POST request
-        
         return courseService.create(course);
     }
-    @PutMapping("path/{id}")
-    public String updateCourse(@PathVariable Long  id,@RequestBody Course course) {
-        //TODO: process PUT request
+    @PutMapping("/{id}")
+    public Course updateCourse(@PathVariable Long id, @RequestBody Course course) {
         
-        return courseService.update(course);
+        return courseService.update(id, course);
     }
-    //@DeleteMapping() TErminar
+    @DeleteMapping("/{id}")
+    public void deleteCourse (@PathVariable Long id) {
+        courseService.delete(id);
+    }
 
 
     
