@@ -9,48 +9,46 @@ import org.springframework.stereotype.Service;
 import com.devsenior.jmorera.gestioncursos.exception.CourseNotFoundException;
 import com.devsenior.jmorera.gestioncursos.model.Course;
 
-
 @Service
 public class CourseServiceInMemory implements CourseService {
 
     private AtomicLong consecutive;
     private List<Course> courses;
 
-    public CourseServiceInMemory(){
+    public CourseServiceInMemory() {
         courses = new ArrayList<>();
         consecutive = new AtomicLong(1);
-
 
     }
 
     @Override
     public List<Course> getAll() {
-       //return new ArrayList<Course>(courses);
-       return courses.stream().toList();
+        // return new ArrayList<Course>(courses);
+        return courses.stream().toList();
     }
 
     @Override
     // Obtener por Id
     public Course getOneById(Long id) {
-      validateId(id);
+        validateId(id);
 
         return courses.stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new CourseNotFoundException(
-                    String.format("EL curso con id '%d' no existe" , id)));
-               
+                        String.format("EL curso con id '%d' no existe", id)));
+
     }
 
     @Override
     public List<Course> getAllThatContainName(String partialName) {
-       if(isBlank(partialName)){
-        return getAll();
-       }
-       return courses.stream()
-                .filter(c -> c.getName().contains(partialName) 
-                        || c.getDescrition().contains(partialName))
-                .toList();        
+        if (isBlank(partialName)) {
+            return getAll();
+        }
+        return courses.stream()
+                .filter(c -> c.getName().toLowerCase().contains(partialName.toLowerCase())
+                        || c.getDescrition().toUpperCase().contains(partialName.toUpperCase()))
+                .toList();
     }
 
     @Override
@@ -58,17 +56,17 @@ public class CourseServiceInMemory implements CourseService {
 
         validateCourse(course);
 
-        //generamos el id
+        // generamos el id
         course.setId(consecutive.getAndIncrement());
 
-        //Agregar curso a la lista
+        // Agregar curso a la lista
         courses.add(course);
         return course;
     }
 
     @Override
     public Course update(Long id, Course course) {
-       
+
         validateId(id);
         validateCourse(course);
 
@@ -84,22 +82,21 @@ public class CourseServiceInMemory implements CourseService {
 
     }
 
-
     @Override
     public void delete(Long id) {
-       validateId(id);
+        validateId(id);
 
         var existingCourse = getOneById(id);
 
         courses.remove(existingCourse);
     }
 
-    private boolean isBlank (String data){
+    private boolean isBlank(String data) {
         return data == null || data.isBlank();
 
     }
 
-     private void validateId(Long id) {
+    private void validateId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("El Id está vacio");
         }
@@ -108,7 +105,7 @@ public class CourseServiceInMemory implements CourseService {
         }
     }
 
-    private void validateCourse(Course course){ 
+    private void validateCourse(Course course) {
         if (course == null) {
             throw new IllegalArgumentException("No fue enviado un curso a guardar.");
         }
@@ -123,9 +120,5 @@ public class CourseServiceInMemory implements CourseService {
         }
         // ...
     }
-    
 
 }
-
-
-

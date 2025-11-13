@@ -2,15 +2,28 @@ package com.devsenior.jmorera.gestioncursos.model;
 
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 //Pjp
 // java Bean
 //DTO -Data transfer Object
-
+@Schema(description = "Representa un curso académico ")
 public class Course {
-
+    @Schema(description = "Identificacdor unico generado automáticamente", example = "1")
     private Long id;
+
+    @Schema(description = "Nombre Completo del curso", example = "Programación Basica en Java")
+    @NotBlank(message = "El campo 'name' es Obligatorio")
     private String name;
+
+    @Schema(description = "codigo unico del curso", example = "Java101")
+    @NotBlank(message = "El campo 'code' es Obligatorio")
+    @Size(min = 5, message = "El Campo Code debe tener minimo 5 caracteres")
+    @Size(max = 10, message = "El Campo Code debe tener maximo 10 caracteres")
     private String code;
+
     private String descrition;
     private LocalDate initalDate;
     private LocalDate finalDate;
@@ -28,8 +41,6 @@ public class Course {
         this.initalDate = initalDate;
         this.finalDate = finalDate;
         this.credits = credits;
-
-                
 
     }
 
@@ -150,9 +161,4 @@ public class Course {
         return true;
     }
 
-    
-
-    
-
-    
 }

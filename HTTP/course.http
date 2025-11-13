@@ -1,0 +1,65 @@
+### Listar Todos los cursos
+
+GET http://localhost:8080/api/cursos
+
+### consultar cursos por id
+
+GET http://localhost:8080/api/cursos/1
+
+
+
+
+
+### Crear Cursos 1
+
+POST  http://localhost:8080/api/cursos
+Content-Type: application/json
+
+{
+
+    "name" : " Programacion Basica en Java",
+    "code" : "JAVA101" ,
+    "descrition" : "Este curso aborda las bases de la progranación desde un enfoque imperativo..." ,
+    "initalDate" : "2026-01-01",
+    "finalDate" : " 2026-01-31" ,
+    "credits" : 4
+}
+
+### Crear Cursos 2
+
+POST  http://localhost:8080/api/cursos
+Content-Type: application/json
+
+{
+
+    "name" : " Programacion Orientada a Objetos",
+    "code" : "JAVA102" ,
+    "descrition" : "Este curso aborda los pilares de POO..." ,
+    "initalDate" : "2026-02-01",
+    "finalDate" : " 2026-02-28" ,
+    "credits" : 4
+}
+
+### Actualizar un curso
+
+PUT   http://localhost:8080/api/cursos/2
+Content-Type: application/json
+
+{
+
+    "name" : " Programacion Orientada a Objetos",
+    "code" : "JAVA102" ,
+    "descrition" : "Este curso aborda los pilares de POO..." ,
+    "initalDate" : "2026-02-01",
+    "finalDate" : " 2026-02-28" ,
+    "credits" : 3
+}
+
+### Eliminar un curso
+
+DELETE http://localhost:8080/api/cursos/2
+
+
+### Buscar los cursos que tienen un texto en especifico
+
+GET http://localhost:8080/api/cursos/buscar?nombre=pilar
